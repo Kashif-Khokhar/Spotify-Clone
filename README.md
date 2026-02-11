@@ -7,17 +7,19 @@ A premium, pixel-perfect Spotify clone built with **React**, **TypeScript**, and
 
 ## ✨ Features
 
--   **High-Fidelity UI**: Complete three-column layout (Sidebar, Main Content, Right Sidebar).
--   **Official Branding**: Integrated official Spotify logo (SVG), Base64 favicon, and brand-accurate colors.
+-   **Mobile-First Responsiveness**: Complete overhaul for mobile devices, featuring a collapsible layout and a native-app-like mobile header.
+-   **Official Branding**: Consistent Spotify branding across all devices using a reusable `SpotifyLogo` component and official color palette.
+-   **Interactive Content Filtering**: 
+    -   Integrated "All", "Music", and "Podcasts" filters in the `MobileHeader`.
+    -   Dynamic content filtering on the Home page powered by a global `FilterContext`.
+-   **High-Fidelity UI**: Complete three-column layout for desktop (Sidebar, Main Content, Right Sidebar).
 -   **Interactive Navigation**:
     -   Centered Search Navigation with automatic redirect on focus.
     -   Sidebar library shortcuts (Library, Plus icons) with active/hover states.
 -   **Content-Dense Home**:
-    -   Dynamic 2x4 "Recent items" grid.
-    -   Expanded sections: "Recently played", "Your top mixes", "Made for you", and "Jump back in".
+    -   Dynamic 2x4 "Recent items" grid and sections like "Recently played", "Your top mixes", etc.
     -   Hover-play overlays on all content cards.
--   **Persistent Player**: Full-featured playback bar with sample track info, heart icons, and high-fidelity controls.
--   **Now Playing Sidebar**: Detailed track info and "About the Artist" section for maximum immersion.
+-   **Persistent Player & Sidebar**: Full-featured playback bar and immersive "About the Artist" sidebar.
 
 ## 🚀 Tech Stack
 

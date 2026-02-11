@@ -1,8 +1,10 @@
 import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useFilter } from '../components/FilterContext';
 
 const Home = () => {
     const navigate = useNavigate();
+    const { activeFilter, setActiveFilter } = useFilter();
 
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop&q=60";
@@ -43,135 +45,157 @@ const Home = () => {
         { title: "Daily Mix 5", desc: "Lofi Beats, Chillhop and more", image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=300&h=300&fit=crop" },
     ];
 
+    const showMusic = activeFilter === 'All' || activeFilter === 'Music';
+    const showPodcasts = activeFilter === 'All' || activeFilter === 'Podcasts';
+
     return (
         <div className="home-content">
             <div className="filter-chips">
-                <button className="chip active">All</button>
-                <button className="chip">Music</button>
-            </div>
-
-            <div className="category-grid-2x4">
-                {recentItems.map((item, i) => (
-                    <div key={i} className="compact-card" onClick={() => navigate(`/playlist/${i}`)}>
-                        <img src={item.image} alt={item.title} onError={handleImageError} />
-                        <span>{item.title}</span>
-                        <div className="compact-play">
-                            <Play fill="black" size={20} />
-                        </div>
-                    </div>
+                {(['All', 'Music', 'Podcasts'] as const).map((filter) => (
+                    <button
+                        key={filter}
+                        className={`chip ${activeFilter === filter ? 'active' : ''}`}
+                        onClick={() => setActiveFilter(filter)}
+                    >
+                        {filter}
+                    </button>
                 ))}
             </div>
 
-            {/* Made For You Section */}
-            <div className="section-header">
-                <div>
-                    <span className="text-secondary" style={{ fontSize: '12px', fontWeight: 600 }}>Made For</span>
-                    <h2 className="section-title">Kashifkhokhar</h2>
-                </div>
-                <span className="show-all">Show all</span>
-            </div>
-
-            <div className="album-grid">
-                {madeFor.map((album, i) => (
-                    <div key={i} className="album-card" onClick={() => navigate(`/playlist/madefor-${i}`)}>
-                        <div className="album-img-wrapper">
-                            <img
-                                src={album.image}
-                                alt={album.title}
-                                className="album-img-placeholder"
-                                style={{ objectFit: 'cover' }}
-                                onError={handleImageError}
-                            />
-                            <div className="play-button-overlay-album">
-                                <Play fill="black" size={24} />
+            {showMusic && (
+                <>
+                    <div className="category-grid-2x4">
+                        {recentItems.map((item, i) => (
+                            <div key={i} className="compact-card" onClick={() => navigate(`/playlist/${i}`)}>
+                                <img src={item.image} alt={item.title} onError={handleImageError} />
+                                <span>{item.title}</span>
+                                <div className="compact-play">
+                                    <Play fill="black" size={20} />
+                                </div>
                             </div>
-                        </div>
-                        <span className="album-title">{album.title}</span>
-                        {album.desc && <span className="album-desc">{album.desc}</span>}
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            {/* Your Top Mixes Section */}
-            <div className="section-header" style={{ marginTop: '40px' }}>
-                <h2 className="section-title">Your top mixes</h2>
-                <span className="show-all">Show all</span>
-            </div>
+                    {/* Made For You Section */}
+                    <div className="section-header">
+                        <div>
+                            <span className="text-secondary" style={{ fontSize: '12px', fontWeight: 600 }}>Made For</span>
+                            <h2 className="section-title">Kashifkhokhar</h2>
+                        </div>
+                        <span className="show-all">Show all</span>
+                    </div>
 
-            <div className="album-grid">
-                {topMixes.map((mix, i) => (
-                    <div key={i} className="album-card" onClick={() => navigate(`/playlist/mix-${i}`)}>
-                        <div className="album-img-wrapper">
-                            <img
-                                src={mix.image}
-                                alt={mix.title}
-                                className="album-img-placeholder"
-                                style={{ objectFit: 'cover' }}
-                                onError={handleImageError}
-                            />
-                            <div className="play-button-overlay-album">
-                                <Play fill="black" size={24} />
+                    <div className="album-grid">
+                        {madeFor.map((album, i) => (
+                            <div key={i} className="album-card" onClick={() => navigate(`/playlist/madefor-${i}`)}>
+                                <div className="album-img-wrapper">
+                                    <img
+                                        src={album.image}
+                                        alt={album.title}
+                                        className="album-img-placeholder"
+                                        style={{ objectFit: 'cover' }}
+                                        onError={handleImageError}
+                                    />
+                                    <div className="play-button-overlay-album">
+                                        <Play fill="black" size={24} />
+                                    </div>
+                                </div>
+                                <span className="album-title">{album.title}</span>
+                                {album.desc && <span className="album-desc">{album.desc}</span>}
                             </div>
-                        </div>
-                        <span className="album-title">{mix.title}</span>
-                        <span className="album-desc">{mix.desc}</span>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-            {/* Jump Back In Section */}
-            <div className="section-header" style={{ marginTop: '40px' }}>
-                <h2 className="section-title">Jump back in</h2>
-                <span className="show-all">Show all</span>
-            </div>
+                    {/* Your Top Mixes Section */}
+                    <div className="section-header">
+                        <h2 className="section-title">Your top mixes</h2>
+                        <span className="show-all">Show all</span>
+                    </div>
 
-            <div className="album-grid">
-                {jumpBackIn.map((item, i) => (
-                    <div key={i} className="album-card" onClick={() => navigate(`/playlist/jump-${i}`)}>
-                        <div className="album-img-wrapper">
-                            <img
-                                src={item.image}
-                                alt={item.title}
-                                className="album-img-placeholder"
-                                style={{ objectFit: 'cover' }}
-                                onError={handleImageError}
-                            />
-                            <div className="play-button-overlay-album">
-                                <Play fill="black" size={24} />
+                    <div className="album-grid">
+                        {topMixes.map((mix, i) => (
+                            <div key={i} className="album-card" onClick={() => navigate(`/playlist/mix-${i}`)}>
+                                <div className="album-img-wrapper">
+                                    <img
+                                        src={mix.image}
+                                        alt={mix.title}
+                                        className="album-img-placeholder"
+                                        style={{ objectFit: 'cover' }}
+                                        onError={handleImageError}
+                                    />
+                                    <div className="play-button-overlay-album">
+                                        <Play fill="black" size={24} />
+                                    </div>
+                                </div>
+                                <span className="album-title">{mix.title}</span>
+                                <span className="album-desc">{mix.desc}</span>
                             </div>
-                        </div>
-                        <span className="album-title">{item.title}</span>
-                        <span className="album-desc">{item.desc}</span>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            )}
 
-            {/* Recently Played Section (Songs/Albums mixed) */}
-            <div className="section-header" style={{ marginTop: '40px' }}>
-                <h2 className="section-title">Recently played</h2>
-                <span className="show-all">Show all</span>
-            </div>
+            {showPodcasts && (
+                <>
+                    {/* Jump Back In Section */}
+                    <div className="section-header">
+                        <h2 className="section-title">{activeFilter === 'Podcasts' ? 'Podcast Picks' : 'Jump back in'}</h2>
+                        <span className="show-all">Show all</span>
+                    </div>
 
-            <div className="album-grid">
-                {recentItems.slice(0, 5).map((item, i) => (
-                    <div key={i} className="album-card" onClick={() => navigate(`/playlist/recent-${i}`)}>
-                        <div className="album-img-wrapper">
-                            <img
-                                src={item.image}
-                                alt={item.title}
-                                className="album-img-placeholder"
-                                style={{ objectFit: 'cover' }}
-                                onError={handleImageError}
-                            />
-                            <div className="play-button-overlay-album">
-                                <Play fill="black" size={24} />
+                    <div className="album-grid">
+                        {jumpBackIn.map((item, i) => (
+                            <div key={i} className="album-card" onClick={() => navigate(`/playlist/jump-${i}`)}>
+                                <div className="album-img-wrapper">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="album-img-placeholder"
+                                        style={{ objectFit: 'cover' }}
+                                        onError={handleImageError}
+                                    />
+                                    <div className="play-button-overlay-album">
+                                        <Play fill="black" size={24} />
+                                    </div>
+                                </div>
+                                <span className="album-title">{item.title}</span>
+                                <span className="album-desc">{item.desc}</span>
                             </div>
-                        </div>
-                        <span className="album-title">{item.title}</span>
-                        <span className="album-desc">Playlist</span>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            )}
+
+            {showMusic && (
+                <>
+                    {/* Recently Played Section */}
+                    <div className="section-header">
+                        <h2 className="section-title">Recently played</h2>
+                        <span className="show-all">Show all</span>
+                    </div>
+
+                    <div className="album-grid">
+                        {recentItems.slice(0, 5).map((item, i) => (
+                            <div key={i} className="album-card" onClick={() => navigate(`/playlist/recent-${i}`)}>
+                                <div className="album-img-wrapper">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="album-img-placeholder"
+                                        style={{ objectFit: 'cover' }}
+                                        onError={handleImageError}
+                                    />
+                                    <div className="play-button-overlay-album">
+                                        <Play fill="black" size={24} />
+                                    </div>
+                                </div>
+                                <span className="album-title">{item.title}</span>
+                                <span className="album-desc">Playlist</span>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
