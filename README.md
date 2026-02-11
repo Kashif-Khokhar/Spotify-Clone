@@ -2,6 +2,9 @@
 
 A premium, pixel-perfect Spotify clone built with **React**, **TypeScript**, and **Vite**. This project achieves 100% visual parity with the official Spotify 2024 web interface, focusing on rich aesthetics, smooth interactions, and a content-dense experience.
 
+**🔗 [Live Demo](https://spotify-clone-livid-ten.vercel.app/)**
+
+
 ## ✨ Features
 
 -   **High-Fidelity UI**: Complete three-column layout (Sidebar, Main Content, Right Sidebar).
